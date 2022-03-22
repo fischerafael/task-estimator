@@ -13,9 +13,24 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const index = () => {
+  const [estimates, setEstimates] = useState({
+    op: 0,
+    real: 0,
+    pes: 0,
+  });
+
+  const [result, setResult] = useState(0);
+
+  useEffect(() => {
+    (() => {
+      const estimate = (estimates.pes + estimates.real * 4 + estimates.op) / 6;
+      setResult(estimate);
+    })();
+  }, [estimates]);
+
   return (
     <VStack w="full" align="center" bg="gray.900" color="cyan.500">
       <HStack
@@ -36,14 +51,22 @@ const index = () => {
 
       <VStack w="full" maxW="container.sm" spacing="8">
         <HStack w="full" spacing="8">
-          <CustomInput label="Optimistic" />
-          <CustomInput label="Realistic" />
-          <CustomInput label="Pessimistic" />
+          <CustomInput
+            label="Optimistic"
+            value={estimates.op}
+            onChange={(val) => setEstimates({ ...estimates, op: +val })}
+          />
+          <CustomInput
+            label="Realistic"
+            value={estimates.real}
+            onChange={(val) => setEstimates({ ...estimates, real: +val })}
+          />
+          <CustomInput
+            label="Pessimistic"
+            value={estimates.pes}
+            onChange={(val) => setEstimates({ ...estimates, pes: +val })}
+          />
         </HStack>
-
-        <Button h="16" alignSelf="flex-end" colorScheme="cyan">
-          Calculate
-        </Button>
 
         <VStack
           align="center"
@@ -56,7 +79,7 @@ const index = () => {
           <VStack w="full" align="center" spacing="0">
             <Text>Estimated Time</Text>
             <Text fontSize="9xl" fontWeight="black">
-              1h
+              {`${result.toFixed(2)}h`}
             </Text>
           </VStack>
 
@@ -79,7 +102,15 @@ const CustomInput = ({ label, ...props }: CustomInputProps) => {
   return (
     <VStack align="flex-start" spacing="0" as={FormControl} w="full">
       <FormLabel htmlFor="email">{label}</FormLabel>
-      <NumberInput {...props} h="16" w="full">
+      <NumberInput
+        min={0}
+        max={24}
+        precision={2}
+        step={0.25}
+        h="16"
+        w="full"
+        {...props}
+      >
         <NumberInputField h="full" fontSize="lg" />
         <NumberInputStepper>
           <NumberIncrementStepper />
