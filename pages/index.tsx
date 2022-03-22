@@ -15,12 +15,14 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
+const initialValues = {
+  op: 0,
+  real: 0,
+  pes: 0,
+};
+
 const index = () => {
-  const [estimates, setEstimates] = useState({
-    op: 0,
-    real: 0,
-    pes: 0,
-  });
+  const [estimates, setEstimates] = useState(initialValues);
 
   const [result, setResult] = useState(0);
 
@@ -30,6 +32,10 @@ const index = () => {
       setResult(estimate);
     })();
   }, [estimates]);
+
+  const handleReset = () => {
+    setEstimates(initialValues);
+  };
 
   return (
     <VStack w="full" align="center" bg="gray.900" color="cyan.500">
@@ -83,7 +89,13 @@ const index = () => {
             </Text>
           </VStack>
 
-          <Button variant="outline" w="full" h="16" colorScheme="cyan">
+          <Button
+            variant="outline"
+            w="full"
+            h="16"
+            colorScheme="cyan"
+            onClick={handleReset}
+          >
             Reset
           </Button>
         </VStack>
