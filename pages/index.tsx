@@ -14,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { Header } from "../src/components/Header";
 
 const initialValues = {
   op: 0,
@@ -38,24 +39,17 @@ const index = () => {
   };
 
   return (
-    <VStack w="full" align="center" bg="gray.900" color="cyan.500">
-      <HStack
-        w="full"
-        maxW="container.sm"
-        h="20vh"
-        align="center"
-        justify="space-between"
-      >
-        <Text fontWeight="black" fontSize="xl">
-          Task Estimator
-        </Text>
+    <VStack
+      w="full"
+      h="100vh"
+      align="center"
+      spacing="0"
+      bg="gray.900"
+      color="cyan.500"
+    >
+      <Header />
 
-        <Button variant="outline" colorScheme="cyan" h="16">
-          Go Back
-        </Button>
-      </HStack>
-
-      <VStack w="full" maxW="container.sm" spacing="8">
+      <VStack w="full" h="80vh" maxW="container.sm" spacing="8">
         <HStack w="full" spacing="8">
           <CustomInput
             label="Optimistic"
@@ -78,9 +72,9 @@ const index = () => {
           align="center"
           w="full"
           maxW="container.sm"
-          h="full"
           bg="gray.800"
-          p="32"
+          p="16"
+          objectFit="contain"
         >
           <VStack w="full" align="center" spacing="0">
             <Text>Estimated Time</Text>
